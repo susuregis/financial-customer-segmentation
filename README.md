@@ -13,7 +13,7 @@ O pipeline processa os seguintes insumos:
 - `PS_Cliente.json`
 - cotacoes do Banco Central do Brasil via PTAX Olinda
 
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 As camadas sao organizadas assim:
 
@@ -106,7 +106,7 @@ Todos os gráficos do notebook `EDA_banco_dados.ipynb` foram formatados com pale
 
 ### Receita Total por Tipo de Conta
 
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
 **O que mostra:** Comparação entre o volume financeiro das contas RECEBER e PAGAR no banco.
 
@@ -118,7 +118,7 @@ Todos os gráficos do notebook `EDA_banco_dados.ipynb` foram formatados com pale
 
 ### Receita Total por Moeda
 
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 
 **O que mostra:** Distribuição financeira entre as moedas disponíveis no banco, todas convertidas para BRL.
 
@@ -132,7 +132,7 @@ Todos os gráficos do notebook `EDA_banco_dados.ipynb` foram formatados com pale
 
 ### Clientes e Receita por Cluster
 
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 
 **O que mostra:** Comparação entre tamanho (quantidade de clientes) e lucratividade (receita total) de cada cluster.
 
@@ -144,7 +144,7 @@ Todos os gráficos do notebook `EDA_banco_dados.ipynb` foram formatados com pale
 
 ### Distribuição de Países por Cluster
 
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 
 **O que mostra:** Heatmap indicando concentração de clientes por país em cada cluster.
 
@@ -160,7 +160,7 @@ O notebook `EDA_customer_summary_final.ipynb` realiza análise exploratória dos
 
 ### Quantidade de Clientes por Cluster
 
-![alt text](image-8.png)
+![alt text](images/image-8.png)
 
 **O que mostra:** Distribuição quantitativa de clientes entre os clusters.
 
@@ -172,7 +172,7 @@ O notebook `EDA_customer_summary_final.ipynb` realiza análise exploratória dos
 
 ### Receita Média e Ticket Médio por Cluster
 
-![alt text](image-9.png)
+![alt text](images/image-9.png)
 
 **O que mostra:** Comparação da receita média por cliente e do ticket médio por transação em cada cluster.
 
@@ -185,7 +185,7 @@ O notebook `EDA_customer_summary_final.ipynb` realiza análise exploratória dos
 
 ### Participação de Clientes vs Participação de Receita
 
-![alt text](image-10.png)
+![alt text](images/image-10.png)
 
 **O que mostra:** Comparação entre percentual de clientes e percentual de receita por cluster, revelando eficiência econômica.
 
@@ -197,7 +197,7 @@ O notebook `EDA_customer_summary_final.ipynb` realiza análise exploratória dos
 
 ### Análise de Pareto da Receita
 
-![alt text](image-11.png)
+![alt text](images/image-11.png)
 
 **O que mostra:** Curva de concentração de receita, mostrando quantos clientes são necessários para gerar cada percentual acumulado de receita.
 
@@ -210,7 +210,7 @@ O notebook `EDA_customer_summary_final.ipynb` realiza análise exploratória dos
 
 ### Receita VIPs vs Demais Clientes
 
-![alt text](image-12.png)
+![alt text](images/image-12.png)
 
 **O que mostra:** Separação entre receita gerada pelos 20% maiores clientes (VIPs) versus os demais clientes.
 
@@ -223,7 +223,7 @@ O notebook `EDA_customer_summary_final.ipynb` realiza análise exploratória dos
 
 ### PCA 2D dos Clusters
 
-![alt text](image-14.png)
+![alt text](images/image-14.png)
 
 
 **O que mostra:** Projeção dos clientes em duas dimensões principais, visualizando separação entre clusters.
@@ -238,7 +238,7 @@ O notebook `EDA_customer_summary_final.ipynb` realiza análise exploratória dos
 
 ### Distribuição da Estabilidade de Compra
 
-![alt text](image-15.png)
+![alt text](images/image-15.png)
 
 **O que mostra:** Variabilidade do ticket médio dos clientes, medida pelo coeficiente de variação em cada cluster.
 
@@ -252,7 +252,7 @@ O notebook `EDA_customer_summary_final.ipynb` realiza análise exploratória dos
 
 ### Composição dos Clusters por País
 
-![alt text](image-16.png)
+![alt text](images/image-16.png)
 
 **O que mostra:** Distribuição de clientes por país e cluster, mostrando identidade geográfica de cada segmento.
 
@@ -267,7 +267,7 @@ O notebook `EDA_customer_summary_final.ipynb` realiza análise exploratória dos
 
 ### Evolução Mensal de Receita e Transações
 
-![alt text](image-6.png)
+![alt text](images/image-6.png)
 
 **O que mostra:** Tendência temporal da receita e volume de transações ao longo dos meses.
 
@@ -279,7 +279,7 @@ O notebook `EDA_customer_summary_final.ipynb` realiza análise exploratória dos
 
 ### Top 10 Categorias por Receita
 
-![Top 10 Categorias](image-5.png)
+![Top 10 Categorias](images/image-5.png)
 
 **O que mostra:** Ranking das categorias com maior volume financeiro acumulado.
 
@@ -292,7 +292,7 @@ O notebook `EDA_customer_summary_final.ipynb` realiza análise exploratória dos
 
 ### Top 15 Clientes por Receita
 
-![alt text](image-7.png)
+![alt text](images/image-7.png)
 
 **O que mostra:** Ranking dos clientes com maior geração de receita total no banco.
 
