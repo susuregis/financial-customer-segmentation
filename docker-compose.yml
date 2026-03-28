@@ -1,0 +1,122 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres_medallion
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_main:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  airflow-webserver:
+    image: apache/airflow:2.7.3-python3.9
+    container_name: airflow_webserver
+    command: webserver
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow_db
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: airflow_db
+      DB_USER: airflow
+      DB_PASSWORD: airflow
+      DATA_RAW_PATH: /opt/airflow/data/data_raw
+      DATA_BRONZE_PATH: /opt/airflow/data/bronze
+      DATA_SILVER_PATH: /opt/airflow/data/silver
+      DATA_GOLD_PATH: /opt/airflow/data/gold
+      LOG_FILE: /opt/airflow/logs/app.log
+      _PIP_ADDITIONAL_DEPENDENCIES: pandas sqlalchemy psycopg2-binary pyarrow requests scikit-learn matplotlib seaborn openpyxl pyspark==3.4.1
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./src:/opt/airflow/dags/src
+      - ./data:/opt/airflow/data
+      - ./logs:/opt/airflow/logs
+      - ./.env:/opt/airflow/.env
+      - ./main.py:/opt/airflow/dags/main.py
+    ports:
+      - "8080:8080"
+    user: "${AIRFLOW_UID:-50000}:0"
+
+  airflow-scheduler:
+    image: apache/airflow:2.7.3-python3.9
+    container_name: airflow_scheduler
+    command: scheduler
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow_db
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: airflow_db
+      DB_USER: airflow
+      DB_PASSWORD: airflow
+      DATA_RAW_PATH: /opt/airflow/data/data_raw
+      DATA_BRONZE_PATH: /opt/airflow/data/bronze
+      DATA_SILVER_PATH: /opt/airflow/data/silver
+      DATA_GOLD_PATH: /opt/airflow/data/gold
+      LOG_FILE: /opt/airflow/logs/app.log
+      _PIP_ADDITIONAL_DEPENDENCIES: pandas sqlalchemy psycopg2-binary pyarrow requests scikit-learn matplotlib seaborn openpyxl pyspark==3.4.1
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./src:/opt/airflow/dags/src
+      - ./data:/opt/airflow/data
+      - ./logs:/opt/airflow/logs
+      - ./.env:/opt/airflow/.env
+      - ./main.py:/opt/airflow/dags/main.py
+    user: "${AIRFLOW_UID:-50000}:0"
+
+  main-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: main_runner
+    command: python main.py
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: airflow_db
+      DB_USER: airflow
+      DB_PASSWORD: airflow
+      DATA_RAW_PATH: /app/data/data_raw
+      DATA_BRONZE_PATH: /app/data/bronze
+      DATA_SILVER_PATH: /app/data/silver
+      DATA_GOLD_PATH: /app/data/gold
+      LOG_FILE: /app/logs/app.log
+      SPARK_LOCAL_IP: 127.0.0.1
+      SPARK_LOCAL_HOSTNAME: localhost
+    volumes:
+      - ./:/app
+      - ./data:/app/data
+      - ./logs:/app/logs
+    working_dir: /app
+    profiles:
+      - main
+
+volumes:
+  postgres_data_main:

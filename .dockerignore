@@ -1,0 +1,10 @@
+.git
+.github
+.venv
+.venv_local
+__pycache__
+logs
+data/bronze
+data/silver
+data/gold
+notebooks
