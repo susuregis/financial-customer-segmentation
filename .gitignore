@@ -100,12 +100,4 @@ secrets.json
 .cache/
 *.cache
 
-# Visualization outputs (keep but can be regenerated)
-*.png
-*.jpg
-*.jpeg
 
-# Model files (optional)
-*.pkl
-*.h5
-*.joblib
