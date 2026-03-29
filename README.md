@@ -1,8 +1,8 @@
 
-Este repositorio implementa um pipeline de engenharia de dados com arquitetura medalhao para ingestao, tratamento, enriquecimento e analise de dados financeiros. O projeto utiliza Python, PySpark, PostgreSQL com SQLAlchemy, Apache Airflow e um fluxo de machine learning para segmentacao de clientes.
+Este repositório implementa um pipeline de engenharia de dados com arquitetura medalha para ingestão, tratamento, enriquecimento e análise de dados financeiros. O projeto utiliza Python, PySpark, PostgreSQL com SQLAlchemy, Apache Airflow e um fluxo de machine learning para segmentação de clientes.
 
 
-## Visao geral
+## Visão geral
 
 O pipeline processa os seguintes insumos:
 
@@ -11,30 +11,30 @@ O pipeline processa os seguintes insumos:
 - `PS_Conta_Pagar.xlsx`
 - `PS_Conta_Receber.xlsx`
 - `PS_Cliente.json`
-- cotacoes do Banco Central do Brasil via PTAX Olinda
+- cotações do Banco Central do Brasil via PTAX Olinda
 
 ![alt text](images/image-2.png)
 
-As camadas sao organizadas assim:
+As camadas são organizadas assim:
 
-- Bronze: ingestao bruta dos arquivos e da API, com persistencia em Parquet
-- Silver: padronizacao de colunas, limpeza, tipos, datas e qualidade dos dados
-- Gold: modelagem dimensional, tabela fato, dimensoes e agregacoes para consumo analitico
-- ML: segmentacao de clientes a partir da Gold com K-Means e escolha automatica de `k` por `silhouette score`
+- Bronze: ingestão bruta dos arquivos e da API, com persistência em Parquet
+- Silver: padronização de colunas, limpeza, tipos, datas e qualidade dos dados
+- Gold: modelagem dimensional, tabela fato, dimensões e agregações para consumo analítico
+- ML: segmentação de clientes a partir da Gold com K-Means e escolha automática de `k` por `silhouette score`
 
-## Decisoes tecnicas
+## Decisões técnicas
 
 ### Python e PySpark
 
-PySpark foi escolhido porque o desafio pede Pandas ou Spark e o projeto foi estruturado para lidar com processamento em lotes, armazenamento em Parquet e separacao clara por camada. As transformacoes da Bronze e Silver rodam em Spark. A etapa Gold consolida os dados em SQLAlchemy e exporta saídas analiticas em Parquet e CSV.
+PySpark foi escolhido porque o desafio pede Pandas ou Spark e o projeto foi estruturado para lidar com processamento em lotes, armazenamento em Parquet e separação clara por camada. As transformações da Bronze e Silver rodam em Spark. A etapa Gold consolida os dados em SQLAlchemy e exporta saídas analíticas em Parquet e CSV.
 
 ### PostgreSQL com SQLAlchemy
 
-O banco relacional foi escolhido para persistir o modelo analitico e reforcar a separacao entre ingestao, tratamento e consumo. SQLAlchemy foi usado para:
+O banco relacional foi escolhido para persistir o modelo analítico e reforçar a separação entre ingestão, tratamento e consumo. SQLAlchemy foi usado para:
 
 - criar o schema dimensional
-- controlar sessoes e cargas
-- persistir dimensoes, fatos e clusters de clientes
+- controlar sessões e cargas
+- persistir dimensões, fatos e clusters de clientes
 
 ### Modelagem
 
@@ -48,17 +48,17 @@ Foi adotado Star Schema com as seguintes estruturas:
 - `transaction_fact`
 - `exchange_rate_fact`
 
-`account_dim` separa o tipo da conta (`PAGAR` e `RECEBER`) por categoria e `transaction_fact` armazena o valor original, o valor em BRL e a taxa de cambio utilizada.
+`account_dim` separa o tipo da conta (`PAGAR` e `RECEBER`) por categoria e `transaction_fact` armazena o valor original, o valor em BRL e a taxa de câmbio utilizada.
 
 ### Regra de moeda
 
-Os arquivos de contas nao possuem moeda explicita. Para manter coerencia com o enunciado e com a base de clientes, a moeda das receitas foi derivada a partir do pais do cliente:
+Os arquivos de contas não possuem moeda explícita. Para manter coerência com o enunciado e com a base de clientes, a moeda das receitas foi derivada a partir do país do cliente:
 
 - Brasil -> BRL
 - Estados Unidos -> USD
-- Portugal e Franca -> EUR
+- Portugal e França -> EUR
 - Reino Unido -> GBP
-- Canada -> CAD
+- Canadá -> CAD
 - Argentina -> ARS
 
 Para contas a pagar, a moeda adotada foi BRL.
@@ -149,7 +149,7 @@ Todos os gráficos do notebook `EDA_banco_dados.ipynb` foram formatados com pale
 **O que mostra:** Heatmap indicando concentração de clientes por país em cada cluster.
 
 **Insights principais:**
-- Cluster 0: Canada (11), Estados Unidos (11), França (11), Portugal (11), Reino Unido (10) - clientes internacionais
+- Cluster 0: Canadá (11), Estados Unidos (11), França (11), Portugal (11), Reino Unido (10) - clientes internacionais
 - Cluster 1: Brasil (11), Argentina (10) - clientes da América Latina
 - Separação geográfica clara entre clusters
 - Cluster 0 concentra clientes de países desenvolvidos e maior poder de compra
@@ -279,7 +279,7 @@ O notebook `EDA_customer_summary_final.ipynb` realiza análise exploratória dos
 
 ### Top 10 Categorias por Receita
 
-![Top 10 Categorias](images/image-5.png)
+![alt text](images/image-7.png)
 
 **O que mostra:** Ranking das categorias com maior volume financeiro acumulado.
 
@@ -290,18 +290,8 @@ O notebook `EDA_customer_summary_final.ipynb` realiza análise exploratória dos
 - Categorias tendem a ser variadas (juros, assinaturas, prestação de serviços, etc.)
 - Concentração em receitas de serviços e juros recebidos
 
-### Top 15 Clientes por Receita
 
-![alt text](images/image-7.png)
 
-**O que mostra:** Ranking dos clientes com maior geração de receita total no banco.
-
-**Insights principais:**
-- Samuel Turner lidera com ~R$ 800 milhões
-- Todos os top 15 clientes são do Cluster 0 (verde escuro)
-- George Harris, Leo Phillips e Jack Young no pódio (2º, 3º e 4º lugares)
-- Distribuição de receita entre top 15 é relativamente equilibrada
-- Esses 15 clientes concentram aproximadamente 30% de toda receita do banco
 
 ## Estrutura de pastas
 
@@ -344,16 +334,16 @@ desafio_ray/
     └── test_ml.py
 ```
 
-## O que cada modulo faz
+## O que cada módulo faz
 
-- `main.py`: orquestra a execucao completa do pipeline
-- `src/config/config.py`: centraliza paths, banco, API e parametros de ML
+- `main.py`: orquestra a execução completa do pipeline
+- `src/config/config.py`: centraliza paths, banco, API e parâmetros de ML
 - `src/utils/logger.py`: cria logs em JSON
-- `src/utils/database.py`: define modelos SQLAlchemy e conexao com o banco
-- `src/bronze/ingestion.py`: le arquivos brutos, consulta a PTAX e grava Parquet na Bronze
+- `src/utils/database.py`: define modelos SQLAlchemy e conexão com o banco
+- `src/bronze/ingestion.py`: lê arquivos brutos, consulta a PTAX e grava Parquet na Bronze
 - `src/silver/transformation.py`: padroniza colunas e tipos e grava Parquet na Silver
-- `src/gold/aggregation.py`: popula dimensoes e fatos, gera agregacoes analiticas e exports Gold
-- `src/ml/clustering.py`: prepara atributos, escolhe `k`, executa K-Means e salva segmentacao
+- `src/gold/aggregation.py`: popula dimensões e fatos, gera agregações analíticas e exports Gold
+- `src/ml/clustering.py`: prepara atributos, escolhe `k`, executa K-Means e salva segmentação
 - `dags/medallion_pipeline_dag.py`: orquestra as etapas com Airflow
 - `notebooks/EDA_banco_dados.ipynb`: análise exploratória do banco de dados PostgreSQL com visualizações em azul escuro e verde escuro
 - `notebooks/EDA_customer_summary_final.ipynb`: análise exploratória dos clientes segmentados com integração de clusters
@@ -363,25 +353,25 @@ desafio_ray/
 ### Bronze
 
 - leitura dos arquivos CSV, Excel e JSON
-- consulta das cotacoes do Banco Central
-- adicao de metadados de origem e data de ingestao
-- persistencia em Parquet
+- consulta das cotações do Banco Central
+- adição de metadados de origem e data de ingestão
+- persistência em Parquet
 
 ### Silver
 
-- normalizacao de nomes de colunas
-- padronizacao de datas e tipos numericos
-- remocao de duplicidades
-- padronizacao de status e campos textuais
+- normalização de nomes de colunas
+- padronização de datas e tipos numéricos
+- remoção de duplicidades
+- padronização de status e campos textuais
 - score de qualidade por conjunto tratado
 
 ### Gold
 
-- criacao do schema dimensional no PostgreSQL
-- carga das dimensoes de cliente, categoria, moeda, conta e data
-- carga da tabela fato de transacoes
-- carga das cotacoes em `exchange_rate_fact`
-- geracao de datasets analiticos:
+- criação do schema dimensional no PostgreSQL
+- carga das dimensões de cliente, categoria, moeda, conta e data
+- carga da tabela fato de transações
+- carga das cotações em `exchange_rate_fact`
+- geração de datasets analíticos:
   - `transactions_enriched`
   - `customer_summary`
   - `category_summary`
@@ -389,15 +379,15 @@ desafio_ray/
 
 ## Machine Learning
 
-O problema pedido no desafio e de agrupamento de clientes. Por isso foi utilizado K-Means, com as seguintes metricas:
+O problema pedido no desafio é de agrupamento de clientes. Por isso foi utilizado K-Means, com as seguintes métricas:
 
 - `silhouette_score`
 - `davies_bouldin_index`
 - `calinski_harabasz_index`
 
-O numero de clusters pode ser informado por variavel de ambiente. Quando `N_CLUSTERS=0`, o projeto testa varios valores e escolhe o melhor `k` pelo maior `silhouette score`.
+O número de clusters pode ser informado por variável de ambiente. Quando `N_CLUSTERS=0`, o projeto testa vários valores e escolhe o melhor `k` pelo maior `silhouette score`.
 
-Saidas do ML:
+Saídas do ML:
 
 - `data/gold/ml_results/customer_segments.parquet`
 - `data/gold/ml_results/customer_segments.csv`
@@ -409,15 +399,15 @@ Saidas do ML:
 
 ## Como executar
 
-### Opcao 1: execucao local
+### Opção 1: execução local
 
-1. Instale as dependencias:
+1. Instale as dependências:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Ajuste o `.env` se necessario.
+2. Ajuste o `.env` se necessário.
 
 3. Execute o pipeline:
 
@@ -425,13 +415,13 @@ pip install -r requirements.txt
 python main.py
 ```
 
-### Opcao 2: banco e Airflow com Docker
+### Opção 2: banco e Airflow com Docker
 
 ```bash
 docker compose up -d
 ```
 
-Com o Airflow no ar, a DAG `medallion_pipeline` fica disponivel na interface web.
+Com o Airflow no ar, a DAG `medallion_pipeline` fica disponível na interface web.
 
 ## Testes
 
@@ -441,7 +431,7 @@ Para rodar os testes:
 python -m unittest discover -s tests -p "test_*.py"
 ```
 
-Os testes de Bronze e Silver dependem de `pyspark`. Se o pacote nao estiver instalado, eles sao ignorados automaticamente.
+Os testes de Bronze e Silver dependem de `pyspark`. Se o pacote não estiver instalado, eles são ignorados automaticamente.
 
 ## Outputs esperados
 
@@ -471,8 +461,8 @@ Os testes de Bronze e Silver dependem de `pyspark`. Se o pacote nao estiver inst
 - `monthly_summary.parquet`
 - artefatos de segmentacao em `data/gold/ml_results/`
 
-## Observacoes finais
+## Observações finais
 
-- Os logs sao gerados em JSON para facilitar auditoria e observabilidade.
-- A DAG do Airflow reutiliza o mesmo pipeline da execucao local.
-- O projeto nao usa dados sinteticos para mascarar ausencia de arquivos obrigatorios.
+- Os logs são gerados em JSON para facilitar auditoria e observabilidade.
+- A DAG do Airflow reutiliza o mesmo pipeline da execução local.
+- O projeto não usa dados sintéticos para mascarar ausência de arquivos obrigatórios.
